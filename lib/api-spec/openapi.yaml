@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: investwise
+    description: Deterministic investment exploration and optional AI education
 paths:
   /healthz:
     get:
@@ -24,6 +26,126 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /:
+    get:
+      operationId: getApiInfo
+      tags: [health]
+      summary: API service information
+      responses:
+        "200":
+          description: Service information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /health:
+    get:
+      operationId: getHealth
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /gemini-status:
+    get:
+      operationId: getGeminiStatus
+      tags: [investwise]
+      summary: Report whether optional Gemini support is configured
+      responses:
+        "200":
+          description: Gemini configuration status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeminiStatus"
+  /recommend:
+    post:
+      operationId: recommendInvestments
+      tags: [investwise]
+      summary: Rank educational investment options for a profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecommendInput"
+      responses:
+        "200":
+          description: Deterministic compatibility results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecommendResponse"
+        "400":
+          description: Invalid profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /analyze:
+    post:
+      operationId: analyzeInvestments
+      tags: [investwise]
+      summary: Explain investment options for education using optional Gemini
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyzeInput"
+      responses:
+        "200":
+          description: Educational analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiResponse"
+        "400":
+          description: Invalid analysis request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: Gemini is not configured or temporarily unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /chat:
+    post:
+      operationId: chatWithInvestWise
+      tags: [investwise]
+      summary: Ask an educational question with current-session context
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatInput"
+      responses:
+        "200":
+          description: Educational assistant response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+        "400":
+          description: Invalid chat request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: Gemini is not configured or temporarily unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +155,152 @@ components:
           type: string
       required:
         - status
+    GeminiStatus:
+      type: object
+      properties:
+        configured:
+          type: boolean
+        model:
+          type: string
+      required: [configured, model]
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+    InvestmentProfile:
+      type: object
+      properties:
+        investmentAmount: { type: number, minimum: 0 }
+        monthlyIncome: { type: number, minimum: 0 }
+        monthlyExpenses: { type: number, minimum: 0 }
+        existingSavings: { type: number, minimum: 0 }
+        existingInvestments: { type: number, minimum: 0 }
+        risk: { type: string }
+        duration: { type: string }
+        goal: { type: string }
+        liquidity: { type: string }
+        style: { type: string }
+        experience: { type: string }
+        regularIncome: { type: boolean }
+        selectedCategories:
+          type: array
+          items: { type: string }
+      required:
+        - investmentAmount
+        - monthlyIncome
+        - monthlyExpenses
+        - existingSavings
+        - existingInvestments
+        - risk
+        - duration
+        - goal
+        - liquidity
+        - style
+        - experience
+        - regularIncome
+        - selectedCategories
+    RecommendInput:
+      type: object
+      properties:
+        profile:
+          $ref: "#/components/schemas/InvestmentProfile"
+      required: [profile]
+    Investment:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        category: { type: string }
+        riskLevel: { type: string }
+        duration: { type: string }
+        liquidity: { type: string }
+        suitableGoals:
+          type: array
+          items: { type: string }
+        suitableStyles:
+          type: array
+          items: { type: string }
+        experienceSuitability: { type: string }
+        regularIncomeSuitable: { type: boolean }
+        minimumInvestment: { type: number }
+        advantages:
+          type: array
+          items: { type: string }
+        risks:
+          type: array
+          items: { type: string }
+        limitations:
+          type: array
+          items: { type: string }
+        description: { type: string }
+      required:
+        - id
+        - name
+        - category
+        - riskLevel
+        - duration
+        - liquidity
+        - suitableGoals
+        - suitableStyles
+        - experienceSuitability
+        - regularIncomeSuitable
+        - minimumInvestment
+        - advantages
+        - risks
+        - limitations
+        - description
+    Recommendation:
+      allOf:
+        - $ref: "#/components/schemas/Investment"
+        - type: object
+          properties:
+            matchPercentage: { type: integer, minimum: 0, maximum: 100 }
+            whyItMatches:
+              type: array
+              items: { type: string }
+          required: [matchPercentage, whyItMatches]
+    RecommendResponse:
+      type: object
+      properties:
+        topOptions:
+          type: array
+          items: { $ref: "#/components/schemas/Recommendation" }
+        additionalOptions:
+          type: array
+          items: { $ref: "#/components/schemas/Recommendation" }
+        total: { type: integer }
+      required: [topOptions, additionalOptions, total]
+    AnalyzeInput:
+      type: object
+      properties:
+        profile:
+          $ref: "#/components/schemas/InvestmentProfile"
+        investments:
+          type: array
+          items: { $ref: "#/components/schemas/Recommendation" }
+      required: [profile, investments]
+    AiResponse:
+      type: object
+      properties:
+        text: { type: string }
+      required: [text]
+    ChatInput:
+      type: object
+      properties:
+        sessionId: { type: string }
+        message: { type: string, minLength: 1, maxLength: 2000 }
+        profile:
+          $ref: "#/components/schemas/InvestmentProfile"
+        selectedIds:
+          type: array
+          items: { type: string }
+      required: [message]
+    ChatResponse:
+      type: object
+      properties:
+        sessionId: { type: string }
+        text: { type: string }
+      required: [sessionId, text]
 

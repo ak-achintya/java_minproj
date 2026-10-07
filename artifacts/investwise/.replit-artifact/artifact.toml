@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "InvestWise"
+description = "An educational investment exploration app that collects a financial profile, generates deterministic investment compatibility recommendations in Java, supports comparisons, and offers optional Gemini-powered explanations and chat."
+version = "1.0.0"
+id = "artifacts/investwise"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24501
+
+[services.development]
+run = "pnpm --filter @workspace/investwise run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/investwise", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/investwise/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24501"
+BASE_PATH = "/"

@@ -1,0 +1,287 @@
+INVESTWISE — TECHNOLOGY & FILE STRUCTURE
+
+1. TECHNOLOGY STACK
+
+Frontend:
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+Backend:
+- Java
+
+Server:
+- Java built-in com.sun.net.httpserver.HttpServer
+
+AI:
+- Gemini API through Java backend
+
+Data:
+- JSON file for investment metadata
+
+Database:
+- No database for MVP
+- Session data can remain in memory
+
+2. TECHNOLOGY RULES
+
+DO NOT use:
+- Spring Boot
+- React
+- Node.js backend
+- Express
+- Firebase
+- Unnecessary frameworks
+- Unnecessary databases
+
+The project should remain lightweight and easy to run.
+
+3. PROJECT STRUCTURE
+
+InvestWise/
+│
+├── src/
+│   └── com/
+│       └── investwise/
+│           ├── Main.java
+│           ├── InvestmentServer.java
+│           ├── InvestmentInput.java
+│           ├── InvestmentIdea.java
+│           ├── RecommendationEngine.java
+│           ├── InvestmentDataService.java
+│           ├── GeminiService.java
+│           ├── ChatService.java
+│           ├── Category.java
+│           ├── RiskLevel.java
+│           ├── Duration.java
+│           ├── InvestmentGoal.java
+│           ├── LiquidityRequirement.java
+│           ├── InvestmentStyle.java
+│           └── InvestmentExperience.java
+│
+├── web/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+│
+├── data/
+│   └── investments.json
+│
+├── .env.example
+├── .gitignore
+├── README.md
+├── PRD.txt
+└── TECH.txt
+
+4. FILE RESPONSIBILITIES
+
+Main.java
+- Application entry point.
+- Starts the Java server.
+
+InvestmentServer.java
+- Creates and manages HttpServer.
+- Serves frontend files.
+- Handles API routes.
+- Connects browser requests to Java services.
+
+InvestmentInput.java
+- Represents the user's complete investment profile.
+
+InvestmentIdea.java
+- Represents an investment option and its educational metadata.
+- Can also hold the calculated compatibility score.
+
+RecommendationEngine.java
+- Core deterministic recommendation system.
+- Calculates compatibility scores.
+- Must not depend on Gemini.
+
+InvestmentDataService.java
+- Loads investment data from investments.json.
+- Provides investment records to the recommendation engine.
+
+GeminiService.java
+- Handles Gemini API communication.
+- Reads GEMINI_API_KEY from environment variables.
+- Reads GEMINI_MODEL from environment variables.
+- Keeps the API key server-side.
+- Parses Gemini responses.
+- Handles API errors and temporary failures.
+
+ChatService.java
+- Maintains current-session chatbot context.
+- Builds chat requests using user profile, recommendations, and conversation history.
+- Uses GeminiService for AI responses.
+
+Category.java
+- Defines supported investment categories.
+
+RiskLevel.java
+- Defines supported risk levels.
+
+Duration.java
+- Defines investment duration choices.
+
+InvestmentGoal.java
+- Defines investment goals.
+
+LiquidityRequirement.java
+- Defines liquidity choices.
+
+InvestmentStyle.java
+- Defines investment styles.
+
+InvestmentExperience.java
+- Defines experience levels.
+
+index.html
+- Main frontend structure.
+- Dashboard, profile form, recommendations, comparison, AI analysis and chatbot UI.
+
+style.css
+- All frontend styling.
+- Responsive fintech dashboard design.
+
+app.js
+- Frontend logic.
+- Form handling.
+- API requests using fetch().
+- Recommendation rendering.
+- Comparison logic.
+- AI analysis.
+- Chatbot interaction.
+- Loading and error states.
+
+investments.json
+- Educational investment dataset.
+- Contains metadata for all supported investment options.
+- Must remain separate from recommendation logic.
+
+.env.example
+- Documents required environment variables.
+- Never contain a real API key.
+
+.gitignore
+- Prevents secrets and unnecessary files from being committed.
+
+README.md
+- Setup and run instructions.
+- Architecture.
+- API information.
+- Gemini configuration.
+- Project limitations.
+
+PRD.txt
+- Complete product requirements.
+
+TECH.txt
+- This technology and file-structure document.
+
+5. ENVIRONMENT VARIABLES
+
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
+
+Never put a real API key in source code.
+
+6. COMMUNICATION FLOW
+
+Browser
+→ Java HttpServer
+→ Request Handler
+→ RecommendationEngine / GeminiService / ChatService
+→ Java Response
+→ Browser
+
+7. RECOMMENDATION FLOW
+
+User Profile
+→ InvestmentDataService
+→ RecommendationEngine
+→ Compatibility Scoring
+→ Top 5 Investments
+→ Frontend
+
+8. AI FLOW
+
+User Profile + Recommendations
+→ GeminiService
+→ Gemini API
+→ Educational Explanation
+→ Frontend
+
+Chat:
+User Message
+→ ChatService
+→ GeminiService
+→ Gemini API
+→ Chat Response
+→ Frontend
+
+9. IMPORTANT ARCHITECTURE PRINCIPLE
+
+RecommendationEngine.java and GeminiService.java must remain separate.
+
+Correct:
+User Profile
+→ RecommendationEngine
+→ Recommendations
+→ Optional Gemini Explanation
+
+Incorrect:
+User Profile
+→ Gemini
+→ Random Recommendations
+
+10. SECURITY PRINCIPLE
+
+The browser must NEVER receive:
+- GEMINI_API_KEY
+- Environment variables
+- Internal server secrets
+
+Only the Java backend communicates with Gemini.
+
+11. TESTING REQUIREMENTS
+
+Test:
+- Java compilation
+- Server startup
+- Homepage
+- /health
+- /recommend
+- /gemini-status
+- /analyze
+- /chat
+- Invalid input
+- Gemini unavailable
+- Gemini API errors
+- Frontend responsiveness
+- API key exposure
+
+12. MVP PRIORITY
+
+Priority 1:
+Java server + frontend
+
+Priority 2:
+Investment data + recommendation engine
+
+Priority 3:
+Browser-to-Java API
+
+Priority 4:
+Gemini integration
+
+Priority 5:
+AI analysis
+
+Priority 6:
+Chatbot
+
+Priority 7:
+Comparison
+
+Priority 8:
+UI polish and documentation

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7f2" />
+    <title>InvestWise — Explore investing with clarity</title>
+    <meta name="description" content="An educational investing explorer for understanding which investment options may be compatible with your profile." />
+    <meta property="og:title" content="InvestWise — Explore investing with clarity" />
+    <meta property="og:description" content="Understand investment options in the context of your goals, experience and preferences." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <header class="shell topbar">
+      <a class="brand" href="/" aria-label="InvestWise home" data-testid="link-home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 17.5 9 12l3.2 3.2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 7H20v5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        InvestWise
+      </a>
+      <div class="nav-right">
+        <span class="status-pill" data-testid="status-ai"><span class="status-dot"></span><span id="ai-status-label">Checking learning tools</span></span>
+        <button type="button" class="text-button" data-action="about" data-testid="button-about">About</button>
+      </div>
+    </header>
+    <main id="app" class="shell" aria-live="polite"></main>
+    <footer class="shell footer">
+      <span>© InvestWise · An educational exploration tool</span>
+      <div class="footer-links">
+        <button type="button" data-action="about" data-testid="link-footer-about">About &amp; disclaimer</button>
+        <span>INR · India</span>
+      </div>
+    </footer>
+
+    <dialog class="dialog" id="detail-dialog" aria-labelledby="detail-title">
+      <div class="dialog-head"><div><h2 id="detail-title">Investment details</h2><p id="detail-subtitle"></p></div><button class="dialog-close" type="button" data-action="close-dialog" aria-label="Close details" data-testid="button-close-detail">×</button></div>
+      <div class="dialog-body" id="detail-content"></div>
+    </dialog>
+    <dialog class="dialog" id="about-dialog" aria-labelledby="about-title">
+      <div class="dialog-head"><div><h2 id="about-title">A clearer place to begin.</h2><p>About InvestWise</p></div><button class="dialog-close" type="button" data-action="close-dialog" aria-label="Close about" data-testid="button-close-about">×</button></div>
+      <div class="dialog-body">
+        <p>InvestWise helps you explore educational information about investment options in the context of your goals, experience and preferences. Recommendations are deterministic profile-compatibility results—not forecasts, performance estimates or instructions to invest.</p>
+        <p>Optional Gemini tools are a separate educational layer. They do not determine or alter recommendation results. When enabled, Gemini receives your preference answers, selected investment metadata, and chat messages through the server; monetary amounts are not included.</p>
+        <div class="bottom-disclaimer disclaimer-modal" data-testid="text-full-disclaimer">InvestWise is an educational investment exploration tool. It does not provide personalized financial, tax, or legal advice and does not guarantee investment performance. Investments involve risk.</div>
+        <p style="margin:17px 0 0">Consider speaking with a qualified financial professional about your circumstances before making financial decisions.</p>
+      </div>
+    </dialog>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

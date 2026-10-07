@@ -1,0 +1,289 @@
+INVESTWISE — PRODUCT REQUIREMENTS DOCUMENT (PRD)
+
+1. PRODUCT OVERVIEW
+InvestWise is an educational investment exploration platform that helps users understand and explore investment options based on their financial profile, goals, risk tolerance, investment duration, liquidity needs, investment style, and experience.
+
+InvestWise is an educational tool. It does not provide guaranteed returns or personalized financial, tax, or legal advice.
+
+2. CORE OBJECTIVE
+Build a simple, modern fintech-style application that:
+- Collects a user's investment profile.
+- Uses a deterministic recommendation engine to calculate investment compatibility.
+- Displays the best matching investment options.
+- Explains why an option matches the user's profile.
+- Allows users to compare investments.
+- Provides an AI educational analysis and chatbot through Gemini.
+- Continues working even when Gemini is unavailable.
+
+3. TARGET USERS
+- Beginner investors
+- College students
+- Young professionals
+- Users exploring investment options
+- Intermediate investors seeking educational comparisons
+
+4. USER INPUTS
+Financial:
+- Investment amount
+- Monthly income
+- Monthly expenses
+- Existing savings
+- Existing investments
+
+Profile:
+- Risk level
+- Investment duration
+- Investment goal
+- Liquidity requirement
+- Investment style
+- Investment experience
+- Regular income requirement
+- Selected investment categories
+
+5. RISK LEVELS
+- Conservative
+- Moderate
+- Aggressive
+- Not Sure
+
+6. INVESTMENT DURATIONS
+- Less than 1 year
+- 1–3 years
+- 3–5 years
+- 5–10 years
+- 10+ years
+
+7. INVESTMENT GOALS
+- Wealth Creation
+- Retirement
+- Emergency Fund
+- Short-Term Goal
+- Long-Term Goal
+- Regular Income
+- Capital Preservation
+- Tax Saving
+- Education
+- Major Purchase
+- Not Sure
+
+8. LIQUIDITY REQUIREMENTS
+- Need Money Anytime
+- Low Liquidity
+- Medium Liquidity
+- High Liquidity
+
+9. INVESTMENT STYLES
+- Growth
+- Balanced
+- Income
+- Capital Preservation
+- Diversification
+
+10. INVESTMENT EXPERIENCE
+- Beginner
+- Intermediate
+- Experienced
+- Not Sure
+
+11. INVESTMENT UNIVERSE
+Equity:
+- Stocks
+- Mutual Funds
+- ETFs
+- Index Funds
+- Large Cap Funds
+- Mid Cap Funds
+- Small Cap Funds
+
+Hybrid:
+- Hybrid Funds
+
+Debt / Fixed Income:
+- Debt Funds
+- Liquid Funds
+- Corporate Bonds
+- Government Securities
+- Fixed Deposits
+- Recurring Deposits
+
+Gold / Commodities:
+- Gold
+- Gold ETFs
+- Silver
+- Sovereign Gold Bonds
+
+Alternative / Real Estate:
+- REITs
+- InvITs
+
+Government / Retirement:
+- PPF
+- NPS
+
+International:
+- International Stocks
+- International ETFs
+
+12. RECOMMENDATION ENGINE
+The recommendation engine is deterministic and must be implemented in Java.
+
+It evaluates:
+- Risk compatibility
+- Duration compatibility
+- Goal compatibility
+- Liquidity compatibility
+- Investment style compatibility
+- Experience compatibility
+- Selected category compatibility
+- Regular income compatibility
+
+Each investment receives a compatibility score.
+
+The score means how compatible an investment is with the selected profile. It must not be represented as expected return or guaranteed performance.
+
+The system should return the top 5 compatible options and allow users to explore additional options.
+
+13. INVESTMENT DATA
+Each investment should contain educational metadata:
+- Name
+- Category
+- Risk level
+- Recommended duration
+- Liquidity
+- Suitable goals
+- Suitable investment styles
+- Experience suitability
+- Regular income suitability
+- Minimum investment
+- Advantages
+- Risks
+- Limitations
+- Educational description
+
+Investment data should be maintained separately from the recommendation logic.
+
+14. RECOMMENDATION CARD
+Each recommendation should display:
+- Investment name
+- Category
+- Risk
+- Duration
+- Liquidity
+- Match percentage
+- Why it matches
+- Main risks
+- Learn More
+- Select for Comparison
+
+15. AI ANALYSIS
+Gemini is an educational support layer, not the recommendation engine.
+
+AI analysis should explain:
+- Why the displayed options match the profile
+- Major risks
+- Important limitations
+- What the user should understand before investing
+
+Gemini must not change the deterministic recommendation score.
+
+16. AI CHATBOT
+The chatbot should support questions such as:
+- Why did you recommend this?
+- Give me more options.
+- Compare these two.
+- What are the risks?
+- Explain this simply.
+- What if I increase my investment?
+- What if I need the money earlier?
+- What does this investment mean?
+
+The chatbot should maintain conversation context during the current session.
+
+17. COMPARISON
+Users can select two or more investments and compare:
+- Risk
+- Duration
+- Liquidity
+- Goal suitability
+- Investment style
+- Advantages
+- Risks
+- Limitations
+
+The AI may provide an educational explanation of the comparison.
+
+18. APPLICATION SCREENS
+- Landing Page
+- Investment Profile
+- Recommendation Dashboard
+- Investment Details
+- Compare Investments
+- AI Analysis
+- AI Chatbot
+- About / Disclaimer
+
+19. API ENDPOINTS
+The Java server should provide endpoints such as:
+- GET /
+- GET /health
+- GET /gemini-status
+- POST /recommend
+- POST /analyze
+- POST /chat
+
+20. ERROR HANDLING
+The application must handle:
+- Invalid user input
+- Missing Gemini API key
+- Invalid Gemini configuration
+- HTTP 400
+- HTTP 401
+- HTTP 403
+- HTTP 404
+- HTTP 429
+- HTTP 500
+- HTTP 503
+- Timeout
+- Malformed AI response
+
+If Gemini fails, recommendations must continue working.
+
+Never generate fake AI responses.
+
+21. SECURITY
+- Gemini API key must remain server-side.
+- Never expose the API key to frontend JavaScript.
+- Never commit a real API key to Git.
+- Validate incoming requests.
+- Do not expose stack traces to users.
+- Do not log secrets.
+
+22. UI/UX
+Create a modern, responsive fintech dashboard with:
+- Clean layout
+- Investment cards
+- Match indicators
+- Risk badges
+- Comparison table
+- AI analysis section
+- Chatbot
+- Loading states
+- Error states
+- Start Over functionality
+
+23. DISCLAIMER
+Display:
+"InvestWise is an educational investment exploration tool. It does not provide personalized financial, tax, or legal advice and does not guarantee investment performance. Investments involve risk."
+
+24. SUCCESS CRITERIA
+The MVP is successful when:
+- The application starts correctly.
+- The frontend communicates with Java.
+- User profiles can be submitted.
+- Recommendations are generated deterministically.
+- At least 5 relevant options can be displayed.
+- Investments can be compared.
+- Gemini can provide educational analysis when configured.
+- The chatbot can maintain session context.
+- The application continues working when Gemini is unavailable.
+- No API key is exposed to the frontend.
