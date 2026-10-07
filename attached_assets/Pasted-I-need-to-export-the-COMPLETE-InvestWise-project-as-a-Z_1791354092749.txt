@@ -1,0 +1,78 @@
+I need to export the COMPLETE InvestWise project as a ZIP file so I can continue development in another environment such as VS Code/Antigravity.
+
+DO NOT rebuild, modify, refactor, or delete anything.
+
+Your task is ONLY to prepare the existing project for export and provide the complete project as a ZIP/downloadable archive.
+
+Before creating the ZIP, verify that the project contains all actual source files and required assets.
+
+The ZIP must include:
+
+InvestWise/
+├── src/
+│   └── com/
+│       └── investwise/
+│           ├── all Java source files
+│           └── all supporting Java classes
+│
+├── web/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+│
+├── data/
+│   └── investments.json
+│
+├── PRD.txt
+├── TECH.txt
+├── README.md
+├── .gitignore
+└── any other files required for the project to run
+
+IMPORTANT:
+
+1. Include the COMPLETE source code.
+2. Include all folders and subfolders.
+3. Include configuration files required to run the project.
+4. Include package structure exactly as used by the Java code.
+5. Include the investment dataset.
+6. Include frontend files.
+7. Include README, PRD and TECH files.
+8. Include build/run configuration if the project uses one.
+9. Do NOT include secrets.
+10. Do NOT include GEMINI_API_KEY.
+11. Do NOT include private credentials, tokens or API keys.
+12. Do NOT include unnecessary cache files or temporary files.
+13. Do NOT replace source files with summaries or placeholders.
+14. Do NOT change working code.
+15. Do NOT remove any existing functionality.
+
+If environment variables are required, make sure the ZIP contains only a safe example configuration such as:
+
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
+
+The actual API key MUST NOT be included.
+
+Before exporting, verify that the project can be reconstructed from the ZIP in another development environment.
+
+Then create:
+
+InvestWise.zip
+
+The ZIP should preserve the complete directory structure.
+
+After creating it, provide me with the downloadable ZIP file.
+
+Also provide a short verification report containing:
+
+- ZIP created: YES/NO
+- Java source files included: YES/NO
+- Frontend files included: YES/NO
+- Investment data included: YES/NO
+- PRD included: YES/NO
+- TECH included: YES/NO
+- Secrets excluded: YES/NO
+- Project structure preserved: YES/NO
+
+Again: DO NOT modify the application. This task is ONLY for packaging/exporting the existing InvestWise project into a complete ZIP archive.
